@@ -14,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-       tf_version: [3.0.0]  # Add additional versions if needed
+       tf_version: [5.0.0]  # Add additional versions if needed
 
     env:
       TF_VAR_tf_backend_bucket: ${{ secrets.TF_BACKEND_BUCKET }}
