@@ -4,8 +4,9 @@ on:
   push:
     branches:
       - main
-      - remote
   pull_request:
+    branches:
+      - main
   permissions:
       id-token: write # This is required for aws oidc connection
       contents: read # This is required for actions/checkout
