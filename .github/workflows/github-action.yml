@@ -40,7 +40,7 @@ jobs:
 
     - name: Initialize Terraform
       run: |
-        terraform init -backend-config="bucket=${TF_VAR_tf_backend_bucket}" -backend-config="key=${TF_VAR_tf_backend_key}" -backend-config="region=${TF_VAR_tf_backend_region}"
+        terraform init -backend-config="role=${TF_VAR_AWS_ROLE}" -backend-config="bucket=${TF_VAR_tf_backend_bucket}" -backend-config="key=${TF_VAR_tf_backend_key}" -backend-config="region=${TF_VAR_tf_backend_region}"
         
 #       terraform init -backend-config="access_key=${TF_VAR_aws_access_key}" -backend-config="secret_key=${TF_VAR_aws_secret_key}" -backend-config="bucket=${TF_VAR_tf_backend_bucket}" -backend-config="key=${TF_VAR_tf_backend_key}" -backend-config="region=${TF_VAR_tf_backend_region}"
 
