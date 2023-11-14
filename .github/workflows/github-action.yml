@@ -5,19 +5,16 @@ on:
     branches:
       - main
   pull_request:
-permissions:
-     id-token: write # This is required for aws oidc connection
-     contents: read # This is required for actions/checkout
-     pull-requests: write # This is required for gh bot to comment PR
+    branches:
+      - '*'
 
 jobs:
-  deploy:
   terraform:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        tf_version: [3.0.0]  # Add additional versions if needed
+       tf_version: [3.0.0]  # Add additional versions if needed
 
     env:
       TF_VAR_tf_backend_bucket: ${{ secrets.TF_BACKEND_BUCKET }}
@@ -31,7 +28,7 @@ jobs:
     - name: Set up Terraform
       uses: hashicorp/setup-terraform@v1
       with:
-        terraform_version: ${{ matrix.tf_version }}
+       terraform_version: ${{ matrix.tf_version }}
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -53,48 +50,6 @@ jobs:
       run: terraform plan -out=tfplan
       if: github.event_name == 'pull_request'
       continue-on-error: true
-
-    -  uses: actions/github-script@v6
-       if: github.event_name == 'pull_request'
-       env:
-          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-       with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-            <details><summary>Validation Output</summary>
-
-            \`\`\`\n
-            ${{ steps.validate.outputs.stdout }}
-            \`\`\`
-
-            </details>
-
-            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-
-            <details><summary>Show Plan</summary>
-
-            \`\`\`\n
-            ${process.env.PLAN}
-            \`\`\`
-
-            </details>
-
-            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
-
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
-
-    -   name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
-        run: exit 1
-
 
     - name: Apply Terraform
       if: github.event_name == 'push'
