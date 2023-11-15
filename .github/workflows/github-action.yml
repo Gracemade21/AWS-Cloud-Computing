@@ -19,6 +19,7 @@ jobs:
     env:
       TF_VAR_tf_backend_bucket: ${{ secrets.TF_BACKEND_BUCKET }}
       TF_VAR_tf_backend_key: ${{ secrets.TF_BACKEND_KEY }}
+      TF_VAR_aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
       TF_VAR_tf_backend_region: ${{ secrets.TF_BACKEND_REGION }}
 
     steps:
@@ -35,6 +36,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
         aws-region: ${{ secrets.TF_BACKEND_REGION }}
 
     - name: Initialize Terraform
