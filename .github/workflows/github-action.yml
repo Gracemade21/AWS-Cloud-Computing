@@ -18,7 +18,7 @@ jobs:
 
     env:
       AWS_REGION: ${{ secrets.TF_BACKEND_REGION }}
-      AWS_ROLE_ARN: ${{ secrets.AWS_ROLE }}
+      AWS_ROLE: ${{ secrets.AWS_ROLE }}
       TF_VAR_tf_backend_bucket: ${{ secrets.TF_BACKEND_BUCKET }}
       TF_VAR_tf_backend_key: ${{ secrets.TF_BACKEND_KEY }}
 
@@ -34,7 +34,7 @@ jobs:
     - name: Assume AWS Role
       id: assume-role
       run: |
-        role_credentials=$(aws sts assume-role --role-arn "$AWS_ROLE_ARN" --role-session-name Terraform_statefile_gitbubpolicy --output json)
+        role_credentials=$(aws sts assume-role --role-arn "$AWS_ROLE" --role-session-name Terraform_statefile_gitbubpolicy --output json)
         echo "::set-output name=AWS_ACCESS_KEY_ID::$(echo "$role_credentials" | jq -r .Credentials.AccessKeyId)"
         echo "::set-output name=AWS_SECRET_ACCESS_KEY::$(echo "$role_credentials" | jq -r .Credentials.SecretAccessKey)"
         echo "::set-output name=AWS_SESSION_TOKEN::$(echo "$role_credentials" | jq -r .Credentials.SessionToken)"
