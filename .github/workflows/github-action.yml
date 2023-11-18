@@ -34,7 +34,7 @@ jobs:
     - name: Assume AWS Role
       id: assume-role
       run: |
-        role_credentials=$(aws sts assume-role --role-arn "$AWS_ROLE_ARN" --role-session-name Terraform_statefile_gitbubpolicy --output json)
+        role_credentials=$(aws sts assume-role --role-arn "$AWS_ROLE_ARN" --role-session-name "Terraform_statefile_gitbubpolicy" --output json)
         echo "::set-output name=AWS_ACCESS_KEY_ID::$(echo "$role_credentials" | jq -r .Credentials.AccessKeyId)"
         echo "::set-output name=AWS_SECRET_ACCESS_KEY::$(echo "$role_credentials" | jq -r .Credentials.SecretAccessKey)"
         echo "::set-output name=AWS_SESSION_TOKEN::$(echo "$role_credentials" | jq -r .Credentials.SessionToken)"
