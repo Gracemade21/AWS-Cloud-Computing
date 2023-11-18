@@ -7,12 +7,12 @@ data "aws_vpc" "default_vpc" {
 }*/
 
 data "aws_subnet" "subnet_us-east-1a" {
-    id = "subnet-0afb67a7f948255ea"
+    id = "subnet-0275b87dfa0212136"
   
 }
 
 data "aws_subnet" "subnet_us-east-1b" {
-    id = "subnet-02f94b02e19758ca6"
+    id = "subnet-0893f1760ba7fe0c3"
   
 }
 
